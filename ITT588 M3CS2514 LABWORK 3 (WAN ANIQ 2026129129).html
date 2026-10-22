@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Selamat Rumah – Domestic Violence Support in Malaysia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#1e1b3a; --dusk:#5b4b8a; --lilac:#ebe6f6; --sun:#f2b84b; --paper:#fbfaff; --ink:#26233d; --rose:#c2456b; --ok:#2f7d62;
+  --serif:'Fraunces',Georgia,serif; --sans:'Manrope',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.65}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--sun);outline-offset:3px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:var(--serif);line-height:1.15}
+h2{font-size:clamp(1.8rem,4vw,2.6rem);margin-bottom:12px}
+section{padding:84px 0}
+.lead{max-width:62ch;color:#4b4768;margin-bottom:36px}
+
+/* quick exit */
+#exit{position:fixed;top:14px;right:14px;z-index:50;background:var(--rose);color:#fff;border:0;border-radius:999px;padding:10px 18px;font:700 .9rem var(--sans);cursor:pointer;box-shadow:0 6px 20px rgba(194,69,107,.35)}
+
+/* nav */
+nav{position:absolute;top:0;left:0;right:0;z-index:5;padding:22px 0}
+nav .wrap{display:flex;gap:28px;align-items:center;padding-right:150px}
+nav b{font-family:var(--serif);font-size:1.25rem;color:#fff;margin-right:auto}
+nav a{color:#d9d3ee;text-decoration:none;font-size:.95rem}
+nav a:hover{color:var(--sun)}
+
+/* hero: sunrise over a horizon line */
+.hero{position:relative;background:linear-gradient(180deg,var(--night) 0%,#3a2f69 62%,#7a5a8f 100%);color:#fff;padding:170px 0 0;overflow:hidden}
+.hero .sun{position:absolute;left:50%;bottom:-170px;width:520px;height:520px;margin-left:-260px;border-radius:50%;background:radial-gradient(circle,#ffd98a 0%,var(--sun) 45%,rgba(242,184,75,0) 70%);opacity:.9}
+.hero .wrap{position:relative;z-index:2;padding-bottom:220px}
+.hero h1{font-size:clamp(2.4rem,6.4vw,4.6rem);max-width:15ch;margin-bottom:20px}
+.hero p{max-width:52ch;color:#e0daf3;font-size:1.1rem;margin-bottom:30px}
+.clock{display:inline-block;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:8px 16px;border-radius:12px;margin-bottom:26px;font-size:.95rem}
+.clock strong{font-variant-numeric:tabular-nums}
+.btn{display:inline-block;border:0;border-radius:12px;padding:14px 26px;font:700 1rem var(--sans);cursor:pointer;text-decoration:none;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn.sun{background:var(--sun);color:var(--night)}
+.btn.ghost{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.5);margin-left:10px}
+.btn.dark{background:var(--night);color:#fff}
+
+/* forms of abuse */
+#types{background:var(--paper)}
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}
+.type{padding:26px;border-radius:18px;background:var(--lilac)}
+.type:nth-child(2){background:#f8e3ea}
+.type:nth-child(3){background:#fdf0d4}
+.type:nth-child(4){background:#dff1ea}
+.type h3{font-size:1.3rem;margin-bottom:8px}
+.type p{font-size:.95rem}
+
+/* check */
+#check{background:var(--lilac)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+form{background:#fff;padding:32px;border-radius:20px;box-shadow:0 20px 50px rgba(30,27,58,.1)}
+label.f{display:block;font-weight:700;margin:0 0 6px;font-size:.92rem}
+input[type=text],select{width:100%;padding:12px 14px;border:2px solid #d8d1ec;border-radius:10px;font:inherit;background:#fff;margin-bottom:20px}
+input[type=text]:focus,select:focus{border-color:var(--dusk);outline:0}
+fieldset{border:0;margin-bottom:22px}
+legend{font-weight:700;font-size:.92rem;margin-bottom:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:10px;cursor:pointer;font-size:.95rem}
+.opt:hover{background:var(--lilac)}
+.opt input{margin-top:5px;accent-color:var(--dusk)}
+.err{color:var(--rose);font-size:.9rem;min-height:1.3em;margin-bottom:10px}
+.note{font-size:.88rem;color:#5d5980}
+#result{background:#fff;border-radius:20px;padding:32px;min-height:240px;border-left:8px solid #d8d1ec}
+#result.low{border-color:var(--ok)}
+#result.mid{border-color:var(--sun)}
+#result.high{border-color:var(--rose)}
+#result h3{font-size:1.6rem;margin-bottom:10px}
+#result ul{margin:12px 0 20px 20px}
+.meter{height:10px;border-radius:99px;background:#e6e1f3;margin:14px 0 8px;overflow:hidden}
+.meter i{display:block;height:100%;width:0;background:var(--dusk);transition:width .8s}
+
+/* help */
+.search{max-width:440px;margin-bottom:24px}
+.help{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.card{border:2px solid var(--lilac);border-radius:16px;padding:22px}
+.card h3{font-size:1.15rem}
+.card .num{display:block;font-family:var(--serif);font-size:1.7rem;color:var(--dusk);margin:6px 0}
+.card p{font-size:.9rem;color:#4b4768}
+.empty{color:#5d5980}
+
+/* law */
+#law{background:var(--night);color:#fff}
+#law .lead{color:#cfc8e8}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.facts div{border-top:3px solid var(--sun);padding-top:14px}
+.facts b{font-family:var(--serif);font-size:1.25rem;display:block;margin-bottom:6px}
+.facts span{color:#cfc8e8;font-size:.95rem}
+
+footer{padding:36px 0;text-align:center;font-size:.9rem;color:#5d5980}
+
+/* dialogs */
+dialog{border:0;border-radius:22px;padding:34px;max-width:480px;width:calc(100% - 32px);box-shadow:0 30px 80px rgba(0,0,0,.35);color:var(--ink)}
+dialog::backdrop{background:rgba(30,27,58,.7);backdrop-filter:blur(4px)}
+dialog h3{font-size:1.6rem;margin-bottom:10px}
+dialog p,dialog li{font-size:.97rem;margin-bottom:10px}
+dialog ul{list-style:none;padding:0;margin:14px 0 20px}
+dialog li{padding:10px 14px;background:var(--lilac);border-radius:10px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+
+@media(max-width:800px){.grid2{grid-template-columns:1fr}nav a{display:none}nav .wrap{padding-right:140px}.btn.ghost{margin:10px 0 0}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<button id="exit" title="Leave this site immediately (or press Esc twice)">Quick exit</button>
+
+<header class="hero">
+  <nav><div class="wrap">
+    <b>Selamat Rumah</b>
+    <a href="#types">Understand</a><a href="#check">Safety check</a><a href="#help">Get help</a><a href="#law">Your rights</a>
+  </div></nav>
+  <div class="sun" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="clock"><span id="greeting"></span> · <strong id="clock"></strong></div>
+    <h1>Home should be the safest place you know.</h1>
+    <p>Domestic and gender-based violence affects people of every age, background and community in Malaysia. This site helps you recognise the signs, check your situation privately, and find people who will listen.</p>
+    <button class="btn sun" id="openHelp">Get help now</button>
+    <a class="btn ghost" href="#check">Take the safety check</a>
+  </div>
+</header>
+
+<section id="types"><div class="wrap">
+  <h2>Abuse is more than physical harm</h2>
+  <p class="lead">Many people live with abuse for years without a name for it. These are the four forms we see most often.</p>
+  <div class="types" id="typeGrid"></div>
+</div></section>
+
+<section id="check"><div class="wrap">
+  <h2>Private safety check</h2>
+  <p class="lead">Answer honestly. Nothing is sent or stored anywhere. Your answers stay in this browser tab.</p>
+  <div class="grid2">
+    <form id="checkForm" novalidate>
+      <label class="f" for="name">What should we call you? (optional)</label>
+      <input type="text" id="name" maxlength="30" placeholder="A first name or nickname">
+
+      <label class="f" for="age">Age group</label>
+      <select id="age">
+        <option value="">Choose one</option>
+        <option>Under 18</option><option>18–29</option><option>30–49</option><option>50 and above</option>
+      </select>
+
+      <fieldset>
+        <legend>How often do these things happen?</legend>
+        <label class="opt"><input type="radio" name="freq" value="1"> Rarely</label>
+        <label class="opt"><input type="radio" name="freq" value="2"> Sometimes</label>
+        <label class="opt"><input type="radio" name="freq" value="3"> Often or getting worse</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Tick anything that applies to you</legend>
+        <div id="signs"></div>
+      </fieldset>
+
+      <p class="err" id="err" role="alert"></p>
+      <button class="btn dark" type="submit">See my result</button>
+    </form>
+
+    <div id="result" aria-live="polite">
+      <h3>Your result will appear here</h3>
+      <p class="note">Complete the form and choose “See my result”. This tool is not a diagnosis. It only points you to support.</p>
+    </div>
+  </div>
+</div></section>
+
+<section id="help"><div class="wrap">
+  <h2>Who to call in Malaysia</h2>
+  <p class="lead">If you are in immediate danger, call 999 first. Search the list below by name or number.</p>
+  <input type="text" class="search" id="search" placeholder="Search: police, WhatsApp, 15999…" aria-label="Search help services">
+  <div class="help" id="helpList"></div>
+</div></section>
+
+<section id="law"><div class="wrap">
+  <h2>You have legal protection</h2>
+  <p class="lead">The Domestic Violence Act 1994 lets a person at risk ask for protection without leaving home first.</p>
+  <div class="facts">
+    <div><b>Interim Protection Order</b><span>Can be issued quickly to stop the abuser from hurting or contacting you while your case is heard.</span></div>
+    <div><b>Protection Order</b><span>A court order that sets conditions on the abuser, such as staying away from you or your children.</span></div>
+    <div><b>Free medical care</b><span>Government hospitals have One-Stop Crisis Centres (OSCC) that handle injuries, police reports and counselling together.</span></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  Made for ITT588 Lab Work 3 · Always confirm hotline details with the official provider ·
+  &copy; <script>document.write(new Date().getFullYear());</script> Selamat Rumah
+</div></footer>
+
+<!-- Popup 1: safety notice (opens after a delay) -->
+<dialog id="welcomeDlg">
+  <h3>Before you begin</h3>
+  <p>If someone else uses this device, they may see that you visited. Use the <strong>Quick exit</strong> button (or press Esc twice) to leave at any time.</p>
+  <p class="note">Consider using a private window and clearing your history afterwards.</p>
+  <div class="row"><button class="btn dark" id="okWelcome">I understand</button></div>
+</dialog>
+
+<!-- Popup 2: emergency help -->
+<dialog id="helpDlg">
+  <h3>You are not alone</h3>
+  <p>These lines are free to call or message. Choose what feels safest for you.</p>
+  <ul>
+    <li><b>Police:</b> 999</li>
+    <li><b>Talian Kasih:</b> 15999 · WhatsApp 019-261 5999</li>
+    <li><b>WAO hotline:</b> 03-3000 8858 · WhatsApp 018-988 8058</li>
+  </ul>
+  <div class="row"><button class="btn dark" id="closeHelp">Close</button></div>
+</dialog>
+
+<script>
+/* ============ DATA ============ */
+const types = [
+  {t:'Physical', d:'Hitting, pushing, choking, or blocking you from leaving a room or the house.'},
+  {t:'Emotional', d:'Insults, threats, constant blame, or making you feel worthless or afraid.'},
+  {t:'Financial', d:'Taking your salary, forbidding you to work, or controlling every ringgit you spend.'},
+  {t:'Digital', d:'Checking your phone, tracking your location, or threatening to share private photos.'}
+];
+const signs = [
+  {t:'I feel afraid of my partner or a family member', w:3},
+  {t:'I have been hurt, pushed or threatened with a weapon', w:3},
+  {t:'I am stopped from seeing friends or family', w:2},
+  {t:'My money, phone or documents are controlled by someone else', w:2},
+  {t:'I am told the abuse is my fault', w:1},
+  {t:'I walk on eggshells to avoid anger', w:1},
+  {t:'Children in the home have seen or heard the violence', w:2}
+];
+const services = [
+  {n:'Police (PDRM)', p:'999', d:'Emergencies. You can lodge a report at any police station.'},
+  {n:'Talian Kasih', p:'15999', d:'24-hour government helpline. WhatsApp: 019-261 5999.'},
+  {n:'WAO Hotline', p:'03-3000 8858', d:'Women’s Aid Organisation. WhatsApp: 018-988 8058.'},
+  {n:'Befrienders Kuala Lumpur', p:'03-7627 2929', d:'Confidential emotional support, anytime.'},
+  {n:'One-Stop Crisis Centre', p:'Any government hospital', d:'Medical care, counselling and police assistance in one place.'}
+];
+
+/* ============ OUTPUT METHOD 1: innerHTML ============ */
+const typeGrid = document.getElementById('typeGrid');
+let typeHTML = '';
+for (const x of types) typeHTML += `<div class="type"><h3>${x.t}</h3><p>${x.d}</p></div>`;
+typeGrid.innerHTML = typeHTML;
+
+const signBox = document.getElementById('signs');
+signBox.innerHTML = signs.map((s,i) =>
+  `<label class="opt"><input type="checkbox" value="${i}"> ${s.t}</label>`).join('');
+
+function renderServices(filter = '') {
+  const q = filter.trim().toLowerCase();
+  const list = services.filter(s => (s.n + s.p + s.d).toLowerCase().includes(q));
+  document.getElementById('helpList').innerHTML = list.length
+    ? list.map(s => `<div class="card"><h3>${s.n}</h3><span class="num">${s.p}</span><p>${s.d}</p></div>`).join('')
+    : '<p class="empty">No service matches that search. Try “police” or “15999”.</p>';
+}
+renderServices();
+document.getElementById('search').addEventListener('input', e => renderServices(e.target.value));
+
+/* ============ DATE & TIME + EVENT LOOP (setInterval) ============ */
+function greetingFor(hour) {
+  switch (true) {
+    case hour < 5:  return 'Still awake? You are welcome here';
+    case hour < 12: return 'Selamat pagi';
+    case hour < 15: return 'Selamat tengah hari';
+    case hour < 19: return 'Selamat petang';
+    default:        return 'Selamat malam';
+  }
+}
+function tick() {
+  const now = new Date();
+  document.getElementById('greeting').textContent = greetingFor(now.getHours());
+  document.getElementById('clock').textContent =
+    now.toLocaleDateString('en-MY', {weekday:'long', day:'numeric', month:'long', year:'numeric'}) +
+    ', ' + now.toLocaleTimeString('en-MY', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+}
+tick();
+setInterval(tick, 1000);
+
+/* ============ EVENT LOOP DEMO (console) ============ */
+console.log('1. Page script started (synchronous)');
+setTimeout(() => {
+  console.log('4. setTimeout callback (macrotask) – opens the welcome popup');
+  document.getElementById('welcomeDlg').showModal();
+}, 1200);
+Promise.resolve().then(() => console.log('3. Promise callback (microtask)'));
+console.log('2. Page script finished (synchronous)');
+
+/* ============ POPUP DIALOGS ============ */
+const helpDlg = document.getElementById('helpDlg');
+document.getElementById('openHelp').onclick = () => helpDlg.showModal();
+document.getElementById('closeHelp').onclick = () => helpDlg.close();
+document.getElementById('okWelcome').onclick = () => document.getElementById('welcomeDlg').close();
+
+/* ============ QUICK EXIT ============ */
+const leave = () => window.location.replace('https://www.google.com');
+document.getElementById('exit').onclick = leave;
+let escCount = 0, escTimer;
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  escCount++;
+  clearTimeout(escTimer);
+  escTimer = setTimeout(() => escCount = 0, 800);
+  if (escCount >= 2) leave();
+});
+
+/* ============ SAFETY CHECK FORM ============ */
+let lastReport = null;
+
+document.getElementById('checkForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const err = document.getElementById('err');
+  const freq = document.querySelector('input[name="freq"]:checked');
+  const age = document.getElementById('age').value;
+  const ticked = [...document.querySelectorAll('#signs input:checked')].map(i => signs[+i.value]);
+
+  // validation with control statements
+  if (!age) { err.textContent = 'Please choose an age group.'; return; }
+  if (!freq) { err.textContent = 'Please tell us how often this happens.'; return; }
+  if (ticked.length === 0) { err.textContent = 'Tick at least one statement, or leave this page if none apply.'; return; }
+  err.textContent = '';
+
+  // scoring with operators and a loop
+  let score = 0;
+  for (const s of ticked) score += s.w;
+  score *= Number(freq.value);                 // multiply by frequency
+  const maxScore = signs.reduce((a, s) => a + s.w, 0) * 3;
+  const pct = Math.min(100, Math.round(score / maxScore * 100));
+
+  let level, cls, advice;
+  if (pct < 25)      { level = 'Some concern';   cls = 'low';  advice = 'Keep a private note of what happens and when. Talking to someone you trust can help.'; }
+  else if (pct < 55) { level = 'Moderate risk';  cls = 'mid';  advice = 'Please contact a support service this week. Make a simple safety plan: where to go, who to call, what to carry.'; }
+  else               { level = 'High risk';      cls = 'high'; advice = 'Your safety matters most. Contact Talian Kasih (15999) or WAO today. Call 999 if you are in danger now.'; }
+
+  const name = (document.getElementById('name').value.trim() || 'friend').replace(/[<>&"']/g, '');
+  const stamp = new Date().toLocaleString('en-MY');
+  lastReport = {name, age, level, pct, advice, stamp, items: ticked.map(s => s.t)};
+
+  // OUTPUT METHOD 1: innerHTML – show the result card on the page
+  const box = document.getElementById('result');
+  box.className = cls;
+  box.innerHTML = `
+    <h3>${level}, ${name}</h3>
+    <div class="meter"><i style="width:0" id="bar"></i></div>
+    <p class="note">Concern score: ${pct}% · ${stamp}</p>
+    <p style="margin-top:14px">${advice}</p>
+    <ul>${ticked.map(s => `<li>${s.t}</li>`).join('')}</ul>
+    <div class="row"><button class="btn dark" id="openReport" type="button">Open printable summary</button>
+    <button class="btn dark" id="openHelp2" type="button" style="background:var(--rose)">See hotlines</button></div>`;
+  setTimeout(() => document.getElementById('bar').style.width = pct + '%', 50);  // event loop: animate after render
+  document.getElementById('openReport').onclick = openReport;
+  document.getElementById('openHelp2').onclick = () => helpDlg.showModal();
+
+  // OUTPUT METHOD 2: console
+  console.log('Safety check submitted:', lastReport);
+  console.table(ticked);
+
+  // OUTPUT METHOD 3: window.alert()
+  window.alert(`Result for ${name}: ${level} (${pct}%).\nA full summary is shown on the page. You are not alone.`);
+});
+
+/* OUTPUT METHOD 4: document.write() – writes a printable summary into a NEW window,
+   so the main page is never erased. */
+function openReport() {
+  if (!lastReport) return;
+  const r = lastReport;
+  const w = window.open('', '_blank');
+  if (!w) { window.alert('Your browser blocked the pop-up. Please allow pop-ups and try again.'); return; }
+  w.document.write(`<!DOCTYPE html><html><head><title>Safety summary</title>
+    <style>body{font-family:Georgia,serif;max-width:640px;margin:40px auto;padding:0 20px;line-height:1.6;color:#26233d}
+    h1{color:#5b4b8a}li{margin-bottom:6px}.box{border-left:6px solid #f2b84b;padding:10px 18px;background:#fdf6e4}</style></head><body>
+    <h1>Safety check summary</h1>
+    <p>Prepared for <b>${r.name}</b> · Age group: ${r.age} · ${r.stamp}</p>
+    <div class="box"><b>${r.level}</b> (${r.pct}%)<br>${r.advice}</div>
+    <h3>What you told us</h3><ul>${r.items.map(i => `<li>${i}</li>`).join('')}</ul>
+    <h3>Who to contact</h3>
+    <ul>${services.map(s => `<li><b>${s.n}:</b> ${s.p}</li>`).join('')}</ul>
+    <p><small>Keep this somewhere safe. Delete it if others could find it.</small></p>
+    <button onclick="print()">Print</button></body></html>`);
+  w.document.close();
+}
+</script>
+</body>
+</html>
